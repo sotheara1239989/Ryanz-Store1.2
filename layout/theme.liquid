@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="">
+    <meta name="theme-color" content="#060A18">
     <link rel="canonical" href="{{ canonical_url }}">
 
     {%- if settings.favicon != blank -%}
@@ -256,48 +256,272 @@
     {% endstyle %}
 
     <style>
-      /* 1. Custom Tech/Gaming Cursor */
-      body {
-        cursor: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L12 22M2 12L22 12" stroke="%2300D4FF" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="6" stroke="%238B5CF6" stroke-width="1.5"/></svg>') 12 12, auto;
-      }
-      /* Keep standard pointers for interactive elements */
-      a, button, input, select, .link {
-        cursor: pointer !important;
+      /* ============================================================
+         RYANZ PRO — Custom Design Layer v2
+         Design tokens, ambient atmosphere, micro-interactions
+         ============================================================ */
+
+      /* --- 0. Design Tokens ------------------------------------ */
+      :root {
+        --rz-cyan:          #00D4FF;
+        --rz-purple:        #8B5CF6;
+        --rz-cyan-dim:      rgba(0,  212, 255, 0.12);
+        --rz-purple-dim:    rgba(139, 92, 246, 0.12);
+        --rz-cyan-glow:     rgba(0,  212, 255, 0.30);
+        --rz-surface:       rgba(255, 255, 255, 0.03);
+        --rz-border:        rgba(255, 255, 255, 0.07);
+        --rz-ease:          cubic-bezier(0.16, 1, 0.3, 1);
+        --rz-ease-fast:     cubic-bezier(0.4, 0, 0.2, 1);
       }
 
-      /* 2. Cinematic Page Load Animation */
+      /* --- 1. Cursor -------------------------------------------- */
+      /* Refined precision ring — smaller, crisper */
+      *, *::before, *::after { cursor: inherit; }
+
       body {
-        animation: proFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        opacity: 0;
+        cursor: url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="4.5" stroke="%2300D4FF" stroke-width="1.25" fill="none"/><line x1="10" y1="0.5" x2="10" y2="5.5" stroke="%2300D4FF" stroke-width="1.25" stroke-linecap="round"/><line x1="10" y1="14.5" x2="10" y2="19.5" stroke="%2300D4FF" stroke-width="1.25" stroke-linecap="round"/><line x1="0.5" y1="10" x2="5.5" y2="10" stroke="%2300D4FF" stroke-width="1.25" stroke-linecap="round"/><line x1="14.5" y1="10" x2="19.5" y2="10" stroke="%2300D4FF" stroke-width="1.25" stroke-linecap="round"/><circle cx="10" cy="10" r="1.5" fill="%2300D4FF"/></svg>') 10 10, auto;
       }
-      @keyframes proFadeIn {
+
+      a, button, [role="button"],
+      input[type="submit"], input[type="button"],
+      select, label[for], .link, .button {
+        cursor: pointer;
+      }
+
+      input[type="text"], input[type="email"],
+      input[type="search"], input[type="password"],
+      input[type="number"], textarea {
+        cursor: text;
+      }
+
+      /* --- 2. Custom Scrollbar ---------------------------------- */
+      ::-webkit-scrollbar              { width: 5px; height: 5px; }
+      ::-webkit-scrollbar-track        { background: transparent; }
+      ::-webkit-scrollbar-thumb        {
+        background: linear-gradient(180deg, var(--rz-cyan), var(--rz-purple));
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover  { filter: brightness(1.2); }
+      * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--rz-cyan) transparent;
+      }
+
+      /* --- 3. Text Selection ------------------------------------ */
+      ::selection      { background: rgba(0, 212, 255, 0.22); color: #fff; }
+      ::-moz-selection { background: rgba(0, 212, 255, 0.22); color: #fff; }
+
+      /* --- 4. Page Load ----------------------------------------- */
+      @keyframes rz-fade-up {
         from {
           opacity: 0;
-          transform: translateY(15px) scale(0.99);
+          transform: translateY(14px) scale(0.994);
+          filter: blur(4px);
         }
         to {
           opacity: 1;
           transform: translateY(0) scale(1);
+          filter: blur(0);
         }
       }
 
-      /* 3. Ambient Background Glow Effects */
-      .ryanz-ambient-glow {
+      body {
+        animation: rz-fade-up 0.85s var(--rz-ease) forwards;
+        opacity: 0;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        body { animation: none; opacity: 1; }
+      }
+
+      /* --- 5. Page Load Progress Bar ---------------------------- */
+      .rz-progress {
         position: fixed;
         top: 0;
         left: 0;
-        width: 100vw;
-        height: 100vh;
+        width: 0%;
+        height: 2px;
+        background: linear-gradient(90deg, var(--rz-cyan), var(--rz-purple), var(--rz-cyan));
+        background-size: 200% 100%;
+        z-index: 99999;
+        box-shadow: 0 0 10px var(--rz-cyan-glow), 0 0 20px var(--rz-cyan-dim);
+        transition: width 0.4s var(--rz-ease), opacity 0.5s ease;
+        pointer-events: none;
+        animation: rz-progress-shine 2s linear infinite;
+      }
+
+      @keyframes rz-progress-shine {
+        0%   { background-position: 200% center; }
+        100% { background-position: -200% center; }
+      }
+
+      .rz-progress.rz-progress--done {
+        width: 100% !important;
+        opacity: 0;
+      }
+
+      /* --- 6. Ambient Background Orbs --------------------------- */
+      .rz-ambient {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: -2;
+        overflow: hidden;
+      }
+
+      .rz-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(90px);
+        will-change: transform;
+      }
+
+      .rz-orb--1 {
+        width: 700px; height: 700px;
+        top: -200px; left: -180px;
+        background: radial-gradient(circle, rgba(0,212,255,0.09) 0%, transparent 68%);
+        animation: rz-drift-a 22s ease-in-out infinite alternate;
+      }
+      .rz-orb--2 {
+        width: 550px; height: 550px;
+        bottom: -120px; right: -140px;
+        background: radial-gradient(circle, rgba(139,92,246,0.10) 0%, transparent 68%);
+        animation: rz-drift-b 28s ease-in-out infinite alternate;
+        animation-delay: -10s;
+      }
+      .rz-orb--3 {
+        width: 320px; height: 320px;
+        top: 45%; left: 55%;
+        background: radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%);
+        animation: rz-drift-a 36s ease-in-out infinite alternate;
+        animation-delay: -18s;
+      }
+
+      @keyframes rz-drift-a {
+        0%   { transform: translate(0,    0)   scale(1.00); }
+        25%  { transform: translate(28px, -18px) scale(1.04); }
+        75%  { transform: translate(-16px, 22px) scale(0.97); }
+        100% { transform: translate(18px,  30px) scale(1.02); }
+      }
+
+      @keyframes rz-drift-b {
+        0%   { transform: translate(0,    0)   scale(1.00); }
+        30%  { transform: translate(-24px, 16px) scale(1.05); }
+        70%  { transform: translate(20px, -20px) scale(0.96); }
+        100% { transform: translate(-10px, -28px) scale(1.03); }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .rz-orb { animation: none; }
+      }
+
+      /* --- 7. Noise Texture Overlay ----------------------------- */
+      .rz-noise {
+        position: fixed;
+        inset: 0;
         pointer-events: none;
         z-index: -1;
-        background: 
-          radial-gradient(circle at 15% 10%, rgba(0, 212, 255, 0.07) 0%, transparent 40%),
-          radial-gradient(circle at 85% 90%, rgba(139, 92, 246, 0.07) 0%, transparent 40%);
-        animation: pulseGlow 8s ease-in-out infinite alternate;
+        opacity: 0.028;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-repeat: repeat;
+        background-size: 128px 128px;
       }
-      @keyframes pulseGlow {
-        0% { opacity: 0.7; }
-        100% { opacity: 1; }
+
+      /* --- 8. Smooth Scroll & Base Layout ----------------------- */
+      html { scroll-behavior: smooth; }
+
+      /* --- 9. Focus Rings --------------------------------------- */
+      :focus-visible {
+        outline: 2px solid var(--rz-cyan);
+        outline-offset: 3px;
+        border-radius: 3px;
+      }
+      :focus:not(:focus-visible) { outline: none; }
+
+      /* --- 10. Link Transitions --------------------------------- */
+      a {
+        transition: opacity 0.18s var(--rz-ease-fast),
+                    color   0.18s var(--rz-ease-fast);
+      }
+      a:hover { opacity: 0.82; }
+
+      /* --- 11. Button Micro-interactions ------------------------ */
+      .button,
+      button:not([class*="skip"]),
+      [type="submit"],
+      [type="button"] {
+        transition:
+          transform   0.18s var(--rz-ease-fast),
+          box-shadow  0.22s var(--rz-ease-fast),
+          opacity     0.18s var(--rz-ease-fast) !important;
+        will-change: transform;
+      }
+
+      .button:hover,
+      button:not([class*="skip"]):hover {
+        transform: translateY(-1.5px);
+        box-shadow: 0 6px 20px rgba(0, 212, 255, 0.18);
+      }
+
+      .button:active,
+      button:not([class*="skip"]):active {
+        transform: translateY(0) scale(0.975);
+        box-shadow: none;
+        transition-duration: 0.08s !important;
+      }
+
+      /* --- 12. Card Hover Elevations ---------------------------- */
+      .card-wrapper,
+      .product-card-wrapper,
+      .card {
+        transition:
+          transform   0.30s var(--rz-ease),
+          box-shadow  0.30s var(--rz-ease);
+        will-change: transform;
+      }
+
+      .card-wrapper:hover,
+      .product-card-wrapper:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35),
+                    0  0   0  1px rgba(0, 212, 255, 0.08);
+      }
+
+      /* --- 13. Glass Morphism Header (activated on scroll) ------ */
+      header,
+      .header,
+      .shopify-section-header-sticky {
+        transition:
+          background      0.35s ease,
+          box-shadow      0.35s ease,
+          backdrop-filter 0.35s ease;
+      }
+
+      body.rz-scrolled header,
+      body.rz-scrolled .header,
+      body.rz-scrolled .shopify-section-header-sticky {
+        background: rgba(var(--color-background), 0.82) !important;
+        backdrop-filter: blur(22px) saturate(160%) !important;
+        -webkit-backdrop-filter: blur(22px) saturate(160%) !important;
+        box-shadow:
+          0 1px 0 rgba(0, 212, 255, 0.08),
+          0 4px 32px rgba(0, 0, 0, 0.28) !important;
+      }
+
+      /* --- 14. Image Quality ------------------------------------ */
+      img {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+      }
+
+      /* --- 15. Input Focus Glow --------------------------------- */
+      input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]):focus,
+      textarea:focus,
+      select:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.35),
+                    inset 0 0 0 1px rgba(0, 212, 255, 0.15) !important;
+        transition: box-shadow 0.2s var(--rz-ease-fast);
       }
     </style>
 
@@ -345,8 +569,17 @@
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
-    
-    <div class="ryanz-ambient-glow"></div>
+
+    <!-- Ambient atmosphere layers -->
+    <div class="rz-ambient" aria-hidden="true">
+      <div class="rz-orb rz-orb--1"></div>
+      <div class="rz-orb rz-orb--2"></div>
+      <div class="rz-orb rz-orb--3"></div>
+    </div>
+    <div class="rz-noise" aria-hidden="true"></div>
+
+    <!-- Page load progress bar -->
+    <div class="rz-progress" id="rzProgress" role="progressbar" aria-hidden="true"></div>
 
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
@@ -412,6 +645,43 @@
         recipientFormCollapsed: `{{ 'recipient.form.collapsed' | t }}`,
         countrySelectorSearchCount: `{{ 'localization.country_results_count' | t: count: '[count]' }}`,
       };
+    </script>
+
+    <!-- RYANZ PRO — Runtime Enhancements -->
+    <script>
+      (function () {
+        'use strict';
+
+        /* ---- Glass header on scroll ---- */
+        var ticking = false;
+        window.addEventListener('scroll', function () {
+          if (!ticking) {
+            requestAnimationFrame(function () {
+              document.body.classList.toggle('rz-scrolled', window.scrollY > 30);
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
+
+        /* ---- Page load progress bar ---- */
+        var bar = document.getElementById('rzProgress');
+        if (bar) {
+          var pct = 0;
+          var ticker = setInterval(function () {
+            /* Advance fast early, then slow near 90% */
+            pct += pct < 50 ? Math.random() * 18 : Math.random() * 5;
+            if (pct >= 90) { clearInterval(ticker); pct = 90; }
+            bar.style.width = pct + '%';
+          }, 180);
+
+          window.addEventListener('load', function () {
+            clearInterval(ticker);
+            bar.style.width = '100%';
+            setTimeout(function () { bar.classList.add('rz-progress--done'); }, 350);
+          });
+        }
+      })();
     </script>
 
     {%- if settings.predictive_search_enabled -%}
