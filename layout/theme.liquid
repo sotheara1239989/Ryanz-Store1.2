@@ -255,6 +255,52 @@
       }
     {% endstyle %}
 
+    <style>
+      /* 1. Custom Tech/Gaming Cursor */
+      body {
+        cursor: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L12 22M2 12L22 12" stroke="%2300D4FF" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="6" stroke="%238B5CF6" stroke-width="1.5"/></svg>') 12 12, auto;
+      }
+      /* Keep standard pointers for interactive elements */
+      a, button, input, select, .link {
+        cursor: pointer !important;
+      }
+
+      /* 2. Cinematic Page Load Animation */
+      body {
+        animation: proFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        opacity: 0;
+      }
+      @keyframes proFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(15px) scale(0.99);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      /* 3. Ambient Background Glow Effects */
+      .ryanz-ambient-glow {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        z-index: -1;
+        background: 
+          radial-gradient(circle at 15% 10%, rgba(0, 212, 255, 0.07) 0%, transparent 40%),
+          radial-gradient(circle at 85% 90%, rgba(139, 92, 246, 0.07) 0%, transparent 40%);
+        animation: pulseGlow 8s ease-in-out infinite alternate;
+      }
+      @keyframes pulseGlow {
+        0% { opacity: 0.7; }
+        100% { opacity: 1; }
+      }
+    </style>
+
     {{ 'base.css' | asset_url | stylesheet_tag }}
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
@@ -299,6 +345,9 @@
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
+    
+    <div class="ryanz-ambient-glow"></div>
+
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>
