@@ -1,0 +1,47 @@
+<section class="section" id="new-arrivals">
+  <div class="container">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;margin-bottom:2.5rem" class="reveal">
+      <div>
+        <span class="section-eyebrow">{{ section.settings.eyebrow | default: 'Just Dropped' }}</span>
+        <h2 class="section-title" style="text-align:left;margin-bottom:0">{{ section.settings.heading | default: 'New Arrivals' }}</h2>
+      </div>
+      <a href="{{ collections[section.settings.collection].url | default: '/collections/new-arrivals' }}" class="btn btn--secondary btn--sm">
+        View All New Gear →
+      </a>
+    </div>
+
+    <!-- New items with "NEW" badge prominent -->
+    <div class="collection-grid reveal-stagger">
+      {%- assign new_col = collections[section.settings.collection] -%}
+      {%- if new_col.products.size > 0 -%}
+        {%- for product in new_col.products limit: section.settings.products_count -%}
+          {%- render 'product-card', product: product, force_new_badge: true -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for block in section.blocks limit: section.settings.products_count -%}
+          {%- assign product = all_products[block.settings.product] -%}
+          {%- if product != blank -%}
+            {%- render 'product-card', product: product, force_new_badge: true -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "New Arrivals",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Just Dropped" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "New Arrivals" },
+    { "type": "collection", "id": "collection", "label": "New Arrivals Collection" },
+    { "type": "range", "id": "products_count", "label": "Products to Show", "min": 2, "max": 8, "step": 1, "default": 4 }
+  ],
+  "blocks": [
+    { "type": "product", "name": "Product", "settings": [{ "type": "product", "id": "product", "label": "Product" }] }
+  ],
+  "presets": [{ "name": "New Arrivals" }]
+}
+{% endschema %}

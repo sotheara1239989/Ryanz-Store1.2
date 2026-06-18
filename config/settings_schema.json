@@ -1,0 +1,365 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Ryanz Store",
+    "theme_version": "2.0.0",
+    "theme_author": "Ryanz Store",
+    "theme_documentation_url": "https://ryanzstore.com/docs",
+    "theme_support_url": "https://ryanzstore.com/support"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary Color",
+        "default": "#00D4FF"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary",
+        "label": "Secondary Color",
+        "default": "#8B5CF6"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent Color",
+        "default": "#22C55E"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background Color",
+        "default": "#0B0F19"
+      },
+      {
+        "type": "color",
+        "id": "color_surface",
+        "label": "Surface Color",
+        "default": "#131A2A"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Text Color",
+        "default": "#FFFFFF"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Heading Font",
+        "default": "rajdhani_n7"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Body Font",
+        "default": "inter_n4"
+      },
+      {
+        "type": "range",
+        "id": "font_size_base",
+        "label": "Base Font Size",
+        "min": 14,
+        "max": 20,
+        "step": 1,
+        "default": 16,
+        "unit": "px"
+      }
+    ]
+  },
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo Image"
+      },
+      {
+        "type": "range",
+        "id": "logo_max_width",
+        "label": "Logo Max Width",
+        "min": 80,
+        "max": 300,
+        "step": 10,
+        "default": 160,
+        "unit": "px"
+      },
+      {
+        "type": "checkbox",
+        "id": "sticky_header",
+        "label": "Sticky Header",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "header_transparent",
+        "label": "Transparent Header on Home",
+        "default": false
+      }
+    ]
+  },
+  {
+    "name": "Announcement Bar",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "announcement_enabled",
+        "label": "Show Announcement Bar",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "announcement_text",
+        "label": "Announcement Text",
+        "default": "🎮 FREE SHIPPING on orders over $75 | Use code RYANZ10 for 10% OFF"
+      },
+      {
+        "type": "url",
+        "id": "announcement_link",
+        "label": "Announcement Link"
+      },
+      {
+        "type": "checkbox",
+        "id": "announcement_dismissible",
+        "label": "Dismissible",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Product Cards",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "card_show_rating",
+        "label": "Show Star Rating",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_show_vendor",
+        "label": "Show Vendor / Brand",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_quick_view",
+        "label": "Enable Quick View",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_wishlist",
+        "label": "Enable Wishlist Button",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "card_image_ratio",
+        "label": "Card Image Ratio",
+        "default": "square",
+        "options": [
+          { "value": "square", "label": "Square (1:1)" },
+          { "value": "portrait", "label": "Portrait (3:4)" },
+          { "value": "landscape", "label": "Landscape (4:3)" }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "select",
+        "id": "cart_type",
+        "label": "Cart Type",
+        "default": "drawer",
+        "options": [
+          { "value": "drawer", "label": "Slide Drawer" },
+          { "value": "page", "label": "Cart Page" },
+          { "value": "popup", "label": "Popup" }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_show_upsells",
+        "label": "Show Upsell Products",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_shipping_bar",
+        "label": "Show Free Shipping Progress Bar",
+        "default": true
+      },
+      {
+        "type": "number",
+        "id": "cart_free_shipping_threshold",
+        "label": "Free Shipping Threshold ($)",
+        "default": 75
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_coupon_field",
+        "label": "Show Coupon Field",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Collection Page",
+    "settings": [
+      {
+        "type": "range",
+        "id": "collection_products_per_page",
+        "label": "Products Per Page",
+        "min": 8,
+        "max": 48,
+        "step": 4,
+        "default": 24
+      },
+      {
+        "type": "select",
+        "id": "collection_default_sort",
+        "label": "Default Sort Order",
+        "default": "best-selling",
+        "options": [
+          { "value": "best-selling", "label": "Best Selling" },
+          { "value": "title-ascending", "label": "A-Z" },
+          { "value": "title-descending", "label": "Z-A" },
+          { "value": "price-ascending", "label": "Price: Low to High" },
+          { "value": "price-descending", "label": "Price: High to Low" },
+          { "value": "created-descending", "label": "New Arrivals" }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "collection_sidebar_filters",
+        "label": "Enable Sidebar Filters",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "collection_infinite_scroll",
+        "label": "Enable Infinite Scroll",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "collection_show_vendor",
+        "label": "Show Brand Filter",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Product Page",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "product_zoom_enabled",
+        "label": "Enable Image Zoom",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "product_show_sku",
+        "label": "Show SKU",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "product_show_share",
+        "label": "Show Share Buttons",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "product_recommendations",
+        "label": "Show Related Products",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "product_recommendations_count",
+        "label": "Related Products Count",
+        "min": 2,
+        "max": 8,
+        "step": 1,
+        "default": 4
+      },
+      {
+        "type": "checkbox",
+        "id": "product_reviews_enabled",
+        "label": "Show Reviews Tab",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "product_trust_badges",
+        "label": "Show Trust Badges",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Social Media",
+    "settings": [
+      {
+        "type": "text",
+        "id": "social_facebook",
+        "label": "Facebook URL"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok",
+        "label": "TikTok URL"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube",
+        "label": "YouTube URL"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter",
+        "label": "Twitter / X URL"
+      }
+    ]
+  },
+  {
+    "name": "SEO & Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  },
+  {
+    "name": "Custom CSS",
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "custom_css",
+        "label": "Custom CSS",
+        "default": ""
+      }
+    ]
+  }
+]

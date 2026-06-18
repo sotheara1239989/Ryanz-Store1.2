@@ -1,0 +1,254 @@
+<section
+  class="hero-banner section--lg particle-bg grid-bg"
+  style="
+    position:relative;
+    min-height:{{ section.settings.min_height }}vh;
+    display:flex;
+    align-items:center;
+    overflow:hidden;
+  "
+  id="hero-banner"
+>
+  <!-- Background Image / Video -->
+  <div class="hero-video-bg">
+    {%- if section.settings.bg_video != blank -%}
+      <video autoplay muted loop playsinline preload="none">
+        <source src="{{ section.settings.bg_video }}" type="video/mp4">
+      </video>
+    {%- elsif section.settings.bg_image != blank -%}
+      <img
+        src="{{ section.settings.bg_image | img_url: '2000x' }}"
+        alt="{{ section.settings.heading | escape }}"
+        loading="eager"
+        fetchpriority="high"
+        width="2000"
+        height="1000"
+      >
+    {%- else -%}
+      <!-- Default gradient background -->
+      <div style="
+        width:100%;height:100%;
+        background:radial-gradient(ellipse at 20% 50%, rgba(0,212,255,0.15) 0%, transparent 60%),
+                    radial-gradient(ellipse at 80% 50%, rgba(139,92,246,0.15) 0%, transparent 60%),
+                    var(--color-bg);
+      "></div>
+    {%- endif -%}
+  </div>
+
+  <!-- Animated Grid Overlay -->
+  <div style="
+    position:absolute;inset:0;
+    background-image: linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+    background-size:60px 60px;
+    pointer-events:none;
+  "></div>
+
+  <!-- Glowing Orbs -->
+  <div style="position:absolute;top:20%;left:5%;width:400px;height:400px;background:radial-gradient(circle, rgba(0,212,255,0.12) 0%, transparent 70%);border-radius:50%;pointer-events:none;"></div>
+  <div style="position:absolute;bottom:15%;right:5%;width:500px;height:500px;background:radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 70%);border-radius:50%;pointer-events:none;"></div>
+
+  <div class="container" style="position:relative;z-index:2;padding-block:4rem">
+    <div style="max-width:700px" class="reveal">
+
+      <!-- Eyebrow -->
+      {%- if section.settings.eyebrow != blank -%}
+        <div style="
+          display:inline-flex;align-items:center;gap:0.5rem;
+          padding:0.35rem 1rem;
+          background:rgba(0,212,255,0.1);
+          border:1px solid rgba(0,212,255,0.25);
+          border-radius:9999px;
+          font-family:var(--font-display);
+          font-size:0.7rem;
+          font-weight:700;
+          letter-spacing:0.2em;
+          text-transform:uppercase;
+          color:var(--color-primary);
+          margin-bottom:1.5rem;
+        ">
+          <span style="width:6px;height:6px;background:var(--color-primary);border-radius:50%;animation:pulse-cyan 2s ease-in-out infinite;"></span>
+          {{ section.settings.eyebrow }}
+        </div>
+      {%- endif -%}
+
+      <!-- Heading -->
+      <h1 style="
+        font-family:var(--font-heading);
+        font-size:clamp(2.5rem,6vw,5rem);
+        font-weight:800;
+        line-height:1.05;
+        letter-spacing:0.02em;
+        margin-bottom:1.25rem;
+        color:var(--color-text);
+      ">
+        {%- if section.settings.heading != blank -%}
+          {{ section.settings.heading }}
+        {%- else -%}
+          Build Your Ultimate<br>
+          <span style="background:linear-gradient(135deg,#00D4FF,#8B5CF6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Gaming Setup</span>
+        {%- endif -%}
+      </h1>
+
+      <!-- Subheading -->
+      {%- if section.settings.subheading != blank -%}
+        <p style="
+          font-size:clamp(1rem,2vw,1.25rem);
+          color:rgba(255,255,255,0.7);
+          line-height:1.6;
+          margin-bottom:2rem;
+          max-width:540px;
+        ">
+          {{ section.settings.subheading }}
+        </p>
+      {%- endif -%}
+
+      <!-- Stats Bar -->
+      {%- if section.settings.show_stats -%}
+        <div style="display:flex;gap:2rem;margin-bottom:2rem;flex-wrap:wrap">
+          {%- assign stats = section.settings.stats_text | split: '|' -%}
+          {%- for stat in stats -%}
+            {%- assign parts = stat | split: ':' -%}
+            <div>
+              <div style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:var(--color-primary)">{{ parts[0] }}</div>
+              <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);letter-spacing:0.05em;text-transform:uppercase">{{ parts[1] }}</div>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      <!-- CTA Buttons -->
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center">
+        {%- if section.settings.cta_primary_text != blank -%}
+          <a
+            href="{{ section.settings.cta_primary_link | default: '/collections/all' }}"
+            class="btn btn--primary btn--lg"
+          >
+            {{ section.settings.cta_primary_text }}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        {%- else -%}
+          <a href="/collections/all" class="btn btn--primary btn--lg">
+            Shop Now
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        {%- endif -%}
+
+        {%- if section.settings.cta_secondary_text != blank -%}
+          <a
+            href="{{ section.settings.cta_secondary_link | default: '/collections' }}"
+            class="btn btn--secondary btn--lg"
+          >
+            {{ section.settings.cta_secondary_text }}
+          </a>
+        {%- else -%}
+          <a href="/collections" class="btn btn--secondary btn--lg">Explore Collection</a>
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  {%- if section.settings.show_scroll_indicator -%}
+    <div style="
+      position:absolute;
+      bottom:2rem;left:50%;transform:translateX(-50%);
+      display:flex;flex-direction:column;align-items:center;gap:0.5rem;
+      color:rgba(255,255,255,0.4);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;
+      animation:float 2s ease-in-out infinite;
+    ">
+      <span>Scroll</span>
+      <div style="width:1px;height:40px;background:linear-gradient(to bottom, rgba(0,212,255,0.5), transparent)"></div>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "settings": [
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Min Height (vh)",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "default": 90
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "bg_video",
+      "label": "Background Video URL (MP4)"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Label",
+      "default": "🏆 Premium Gaming Gear"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Main Heading",
+      "default": "Build Your Ultimate Gaming Setup"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Sub Heading",
+      "default": "Premium gaming gear for competitive players. Level up your setup with the best keyboards, mice, headsets and more."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stats",
+      "label": "Show Stats Bar",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "stats_text",
+      "label": "Stats (format: Value:Label|Value:Label)",
+      "default": "50K+:Happy Gamers|500+:Products|4.9★:Average Rating"
+    },
+    {
+      "type": "text",
+      "id": "cta_primary_text",
+      "label": "Primary Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "cta_primary_link",
+      "label": "Primary Button Link"
+    },
+    {
+      "type": "text",
+      "id": "cta_secondary_text",
+      "label": "Secondary Button Text",
+      "default": "Explore Collection"
+    },
+    {
+      "type": "url",
+      "id": "cta_secondary_link",
+      "label": "Secondary Button Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scroll_indicator",
+      "label": "Show Scroll Indicator",
+      "default": true
+    }
+  ],
+  "presets": [{ "name": "Hero Banner" }]
+}
+{% endschema %}

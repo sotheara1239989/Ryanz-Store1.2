@@ -1,0 +1,104 @@
+<section class="section" id="best-sellers" style="background:var(--color-surface);border-top:1px solid var(--color-border);border-bottom:1px solid var(--color-border)">
+  <div class="container">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;margin-bottom:2.5rem" class="reveal">
+      <div>
+        <span class="section-eyebrow">{{ section.settings.eyebrow | default: 'Community Favorites' }}</span>
+        <h2 class="section-title" style="text-align:left;margin-bottom:0">{{ section.settings.heading | default: 'Best Sellers' }}</h2>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap" id="bs-tabs">
+        {%- assign tab_list = section.settings.tabs | default: 'All,Keyboards,Mice,Headsets,Controllers' | split: ',' -%}
+        {%- for tab in tab_list -%}
+          <button
+            class="bs-tab-btn{% if forloop.first %} is-active{% endif %}"
+            data-tab="{{ tab | strip | handle }}"
+            style="
+              padding:0.4rem 1rem;
+              background:{% if forloop.first %}rgba(0,212,255,0.12){% else %}var(--color-surface-2){% endif %};
+              border:1px solid {% if forloop.first %}rgba(0,212,255,0.4){% else %}var(--color-border){% endif %};
+              border-radius:9999px;
+              font-size:0.8rem;
+              font-weight:600;
+              letter-spacing:0.05em;
+              text-transform:uppercase;
+              color:{% if forloop.first %}var(--color-primary){% else %}var(--color-text-muted){% endif %};
+              cursor:pointer;
+              transition:all 0.2s ease;
+            "
+          >{{ tab | strip }}</button>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <!-- Products Carousel -->
+    <div style="position:relative">
+      <div
+        id="bs-carousel"
+        style="
+          display:grid;
+          grid-template-columns:repeat({{ section.settings.visible_cards | default: 4 }},1fr);
+          gap:1.25rem;
+          overflow:hidden;
+        "
+        class="reveal-stagger"
+      >
+        {%- assign bs_collection = collections[section.settings.collection] -%}
+        {%- if bs_collection.products.size > 0 -%}
+          {%- for product in bs_collection.products limit: section.settings.products_limit -%}
+            {%- render 'product-card', product: product, show_rank: forloop.index -%}
+          {%- endfor -%}
+        {%- else -%}
+          {%- for block in section.blocks -%}
+            {%- if block.settings.product != blank -%}
+              {%- assign product = all_products[block.settings.product] -%}
+              {%- render 'product-card', product: product -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if section.settings.show_view_all -%}
+      <div style="text-align:center;margin-top:2.5rem">
+        <a href="{{ collections[section.settings.collection].url | default: '/collections/all' }}" class="btn btn--secondary">
+          {{ section.settings.view_all_text | default: 'View All Best Sellers' }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .bs-tab-btn:hover { background:rgba(0,212,255,0.07)!important; color:var(--color-primary)!important; border-color:rgba(0,212,255,0.3)!important; }
+  @media (max-width:1024px) { #bs-carousel { grid-template-columns:repeat(2,1fr)!important; } }
+  @media (max-width:640px)  { #bs-carousel { grid-template-columns:repeat(2,1fr)!important; } }
+  @media (max-width:400px)  { #bs-carousel { grid-template-columns:1fr!important; } }
+</style>
+
+{% schema %}
+{
+  "name": "Best Sellers",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Community Favorites" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Best Sellers" },
+    { "type": "collection", "id": "collection", "label": "Source Collection" },
+    { "type": "range", "id": "products_limit", "label": "Max Products", "min": 4, "max": 16, "step": 2, "default": 8 },
+    { "type": "range", "id": "visible_cards", "label": "Columns (desktop)", "min": 2, "max": 5, "step": 1, "default": 4 },
+    { "type": "text", "id": "tabs", "label": "Category Tabs (comma separated)", "default": "All,Keyboards,Mice,Headsets,Controllers" },
+    { "type": "checkbox", "id": "show_view_all", "label": "Show View All", "default": true },
+    { "type": "text", "id": "view_all_text", "label": "View All Text", "default": "View All Best Sellers" }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Best Sellers" }]
+}
+{% endschema %}

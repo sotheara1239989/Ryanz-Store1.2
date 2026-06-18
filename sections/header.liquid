@@ -1,0 +1,285 @@
+<header class="site-header" role="banner" id="site-header">
+  <div class="container">
+    <div class="header-inner">
+
+      <!-- Mobile Menu Toggle -->
+      <button
+        class="menu-toggle hide-desktop"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        aria-label="Open navigation menu"
+        style="display:none"
+      >
+        <span></span><span></span><span></span>
+      </button>
+
+      <!-- Logo -->
+      <a href="{{ routes.root_url }}" class="site-logo" aria-label="{{ shop.name }} - home">
+        {%- if section.settings.logo != blank -%}
+          <img
+            src="{{ section.settings.logo | img_url: '320x' }}"
+            alt="{{ shop.name }}"
+            width="{{ section.settings.logo_max_width }}"
+            height="auto"
+            loading="eager"
+            style="max-width:{{ section.settings.logo_max_width }}px"
+          >
+        {%- else -%}
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect width="28" height="28" rx="6" fill="url(#logo-grad)"/>
+            <path d="M8 14l4 4 8-8" stroke="#0B0F19" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="logo-grad" x1="0" y1="0" x2="28" y2="28">
+                <stop stop-color="#00D4FF"/>
+                <stop offset="1" stop-color="#8B5CF6"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span>{{ shop.name }}</span>
+        {%- endif -%}
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="main-nav hide-mobile" role="navigation" aria-label="Main navigation">
+        {%- if section.settings.menu != blank -%}
+          {%- assign nav_menu = section.settings.menu | default: 'main-menu' -%}
+          {%- for link in linklists[nav_menu].links -%}
+            <div class="nav-item">
+              {%- if link.links != blank -%}
+                <a
+                  href="{{ link.url }}"
+                  class="nav-link{% if link.active %} active{% endif %}"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {{ link.title }}
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-left:2px">
+                    <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </a>
+                <div class="nav-dropdown" role="menu">
+                  {%- for childlink in link.links -%}
+                    <a href="{{ childlink.url }}" class="dropdown-link" role="menuitem">
+                      <span class="dropdown-link-icon">🎮</span>
+                      {{ childlink.title }}
+                    </a>
+                  {%- endfor -%}
+                </div>
+              {%- else -%}
+                <a
+                  href="{{ link.url }}"
+                  class="nav-link{% if link.active %} active{% endif %}"
+                >
+                  {{ link.title }}
+                </a>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          <div class="nav-item">
+            <a href="/collections/keyboards" class="nav-link">Keyboards</a>
+          </div>
+          <div class="nav-item">
+            <a href="/collections/mice" class="nav-link">Mice</a>
+          </div>
+          <div class="nav-item">
+            <a href="/collections/headsets" class="nav-link">Headsets</a>
+          </div>
+          <div class="nav-item">
+            <a href="/collections/controllers" class="nav-link">Controllers</a>
+          </div>
+          <div class="nav-item">
+            <a href="/collections/chairs" class="nav-link">Chairs</a>
+          </div>
+          <div class="nav-item">
+            <a href="/collections/deals" class="nav-link" style="color:var(--color-accent)">🔥 Deals</a>
+          </div>
+        {%- endif -%}
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <!-- Search -->
+        {%- if section.settings.show_search -%}
+          <div class="header-search hide-mobile" style="position:relative;width:220px">
+            <div class="search-bar">
+              <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <input
+                type="search"
+                placeholder="Search gear..."
+                autocomplete="off"
+                aria-label="Search products"
+                data-predictive-search-input
+              >
+            </div>
+            <div data-predictive-search-results style="display:none;position:absolute;top:100%;left:0;right:0;z-index:700"></div>
+          </div>
+          <a
+            href="{{ routes.search_url }}"
+            class="header-icon-btn show-mobile-only"
+            aria-label="Search"
+            style="display:none"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+              <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </a>
+        {%- endif -%}
+
+        <!-- Wishlist -->
+        {%- if section.settings.show_wishlist -%}
+          <a href="/pages/wishlist" class="header-icon-btn" aria-label="Wishlist">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        {%- endif -%}
+
+        <!-- Account -->
+        {%- if section.settings.show_account -%}
+          <a
+            href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+            class="header-icon-btn"
+            aria-label="{%- if customer -%}Account{%- else -%}Log in{%- endif -%}"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        {%- endif -%}
+
+        <!-- Cart -->
+        <button
+          class="header-icon-btn"
+          data-open-cart
+          aria-label="Open cart"
+          aria-controls="cart-drawer"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M16 10a4 4 0 0 1-8 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="count-badge cart-count" aria-live="polite">{{ cart.item_count }}</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Menu -->
+<nav
+  class="mobile-menu"
+  id="mobile-menu"
+  role="navigation"
+  aria-label="Mobile navigation"
+  aria-hidden="true"
+>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem">
+    <span class="site-logo" style="font-size:1.1rem">{{ shop.name }}</span>
+    <button class="menu-toggle is-active" aria-label="Close menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <!-- Mobile Search -->
+  <div class="search-bar" style="margin-bottom:1rem">
+    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+      <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+      <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <input type="search" placeholder="Search gaming gear..." aria-label="Search">
+  </div>
+
+  <nav class="mobile-nav">
+    {%- if section.settings.menu != blank -%}
+      {%- for link in linklists[section.settings.menu].links -%}
+        <a href="{{ link.url }}" class="mobile-nav-link{% if link.active %} active{% endif %}">
+          {{ link.title }}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      {%- endfor -%}
+    {%- else -%}
+      <a href="/collections/keyboards" class="mobile-nav-link">🎹 Keyboards</a>
+      <a href="/collections/mice" class="mobile-nav-link">🖱️ Mice</a>
+      <a href="/collections/headsets" class="mobile-nav-link">🎧 Headsets</a>
+      <a href="/collections/controllers" class="mobile-nav-link">🎮 Controllers</a>
+      <a href="/collections/chairs" class="mobile-nav-link">🪑 Chairs</a>
+      <a href="/collections/streaming" class="mobile-nav-link">📡 Streaming</a>
+      <a href="/collections/deals" class="mobile-nav-link" style="color:var(--color-accent)">🔥 Deals</a>
+    {%- endif -%}
+  </nav>
+
+  <div style="margin-top:auto;padding-top:1.5rem;border-top:1px solid var(--color-border);display:flex;flex-direction:column;gap:0.75rem">
+    <a href="{{ routes.account_url }}" class="btn btn--ghost btn--sm">
+      👤 {%- if customer -%}My Account{%- else -%}Log In{%- endif -%}
+    </a>
+    <button class="btn btn--primary btn--sm" data-open-cart>
+      🛒 Cart ({{ cart.item_count }})
+    </button>
+  </div>
+</nav>
+
+<style>
+  @media (max-width: 768px) {
+    .hide-desktop { display: flex !important; }
+    .hide-mobile  { display: none !important; }
+    .show-mobile-only { display: flex !important; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Header",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo Image"
+    },
+    {
+      "type": "range",
+      "id": "logo_max_width",
+      "label": "Logo Max Width",
+      "min": 80,
+      "max": 300,
+      "step": 10,
+      "default": 160,
+      "unit": "px"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Navigation Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Show Search Bar",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wishlist",
+      "label": "Show Wishlist Icon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account",
+      "label": "Show Account Icon",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

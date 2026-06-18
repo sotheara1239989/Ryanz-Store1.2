@@ -1,0 +1,76 @@
+{%- if section.settings.enabled -%}
+<div
+  class="announcement-bar"
+  id="announcement-bar"
+  role="region"
+  aria-label="Announcement"
+  style="background: linear-gradient(90deg, {{ section.settings.bg_start }}, {{ section.settings.bg_end }}, {{ section.settings.bg_start }});background-size:200% 100%;animation:gradient-shift 4s ease infinite;"
+>
+  <div class="container" style="display:flex;align-items:center;justify-content:center;gap:1rem;position:relative;">
+    {%- if section.settings.text != blank -%}
+      <p class="announcement-bar__text">
+        {%- if section.settings.link != blank -%}
+          <a href="{{ section.settings.link }}" class="announcement-bar__link">{{ section.settings.text }}</a>
+        {%- else -%}
+          {{ section.settings.text }}
+        {%- endif -%}
+      </p>
+    {%- endif -%}
+
+    {%- if section.settings.dismissible -%}
+      <button
+        class="announcement-bar__close"
+        aria-label="Close announcement"
+        style="position:absolute;right:0;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(0,0,0,0.6);font-size:1.1rem;cursor:pointer;padding:0.25rem 0.5rem;line-height:1;"
+      >
+        ×
+      </button>
+    {%- endif -%}
+  </div>
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "label": "Show Announcement Bar",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Announcement Text",
+      "default": "🎮 FREE SHIPPING on orders over $75 | Code: RYANZ10 for 10% OFF your first order"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link URL"
+    },
+    {
+      "type": "color",
+      "id": "bg_start",
+      "label": "Gradient Start",
+      "default": "#8B5CF6"
+    },
+    {
+      "type": "color",
+      "id": "bg_end",
+      "label": "Gradient End",
+      "default": "#00D4FF"
+    },
+    {
+      "type": "checkbox",
+      "id": "dismissible",
+      "label": "Allow Dismiss",
+      "default": true
+    }
+  ],
+  "presets": [{ "name": "Announcement Bar" }]
+}
+{% endschema %}

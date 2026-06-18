@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | img_url: '32x32' }}">
+  {%- endif -%}
+
+  <title>
+    {{ page_title }}
+    {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+    {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+    {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+  </title>
+
+  {%- if page_description -%}
+    <meta name="description" content="{{ page_description | escape }}">
+  {%- endif -%}
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="{{ shop.name }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  <meta property="og:title" content="{{ page_title | escape }}">
+  <meta property="og:type" content="website">
+  {%- if page_description -%}
+    <meta property="og:description" content="{{ page_description | escape }}">
+  {%- endif -%}
+  {%- if page_image -%}
+    <meta property="og:image" content="https:{{ page_image | img_url: '1200x630' }}">
+  {%- endif -%}
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page_title | escape }}">
+
+  <link rel="canonical" href="{{ canonical_url }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.shopify.com">
+
+  <!-- Theme Assets -->
+  {{ 'base.css' | asset_url | stylesheet_tag }}
+  {{ 'components.css' | asset_url | stylesheet_tag }}
+  {{ 'animations.css' | asset_url | stylesheet_tag }}
+
+  <!-- Inline critical CSS variables from theme settings -->
+  <style>
+    :root {
+      --color-primary:    {{ settings.color_primary }};
+      --color-secondary:  {{ settings.color_secondary }};
+      --color-accent:     {{ settings.color_accent }};
+      --color-bg:         {{ settings.color_background }};
+      --color-surface:    {{ settings.color_surface }};
+      --color-text:       {{ settings.color_text }};
+      --font-size-base:   {{ settings.font_size_base }}px;
+    }
+    {%- if settings.custom_css != blank -%}
+      {{ settings.custom_css }}
+    {%- endif -%}
+  </style>
+
+  <!-- Shopify Required -->
+  {{ content_for_header }}
+
+  <script>
+    document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+    window.Shopify = window.Shopify || {};
+    window.Shopify.currency = {{ cart.currency.iso_code | json }};
+    window.Shopify.moneyFormat = {{ shop.money_format | json }};
+    window.Shopify.theme = { name: 'Ryanz Store' };
+    window.cartStrings = {
+      error: {{ 'sections.cart.cart_error' | t | json }},
+      quantityError: {{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' | json }}
+    };
+    window.variantStrings = {
+      addToCart: {{ 'products.product.add_to_cart' | t | json }},
+      soldOut: {{ 'products.product.sold_out' | t | json }},
+      unavailable: {{ 'products.product.unavailable' | t | json }}
+    };
+  </script>
+</head>
+
+<body
+  class="template-{{ template.name | handle }}{% if template.suffix != blank %} template-{{ template.name | handle }}-{{ template.suffix | handle }}{% endif %} page-enter"
+  data-cart-type="{{ settings.cart_type }}"
+>
+
+  <!-- Skip Link -->
+  <a class="visually-hidden" href="#MainContent" style="position:absolute;left:-9999px">
+    Skip to content
+  </a>
+
+  <!-- Announcement Bar -->
+  {%- sections 'announcement-bar' -%}
+
+  <!-- Header -->
+  {%- sections 'header' -%}
+
+  <!-- Page Overlay (for drawers) -->
+  <div class="overlay" aria-hidden="true"></div>
+
+  <!-- Cart Drawer -->
+  {%- sections 'cart-drawer' -%}
+
+  <!-- Main Content -->
+  <main id="MainContent" role="main" tabindex="-1">
+    {{ content_for_layout }}
+  </main>
+
+  <!-- Footer -->
+  {%- sections 'footer' -%}
+
+  <!-- Scroll To Top -->
+  <button class="scroll-to-top" aria-label="Scroll to top" style="
+    position:fixed;
+    bottom:2rem;
+    right:2rem;
+    width:44px;height:44px;
+    background:var(--color-surface);
+    border:1px solid var(--color-border);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--color-primary);
+    cursor:pointer;
+    z-index:300;
+    opacity:0;pointer-events:none;
+    transition:all 0.3s ease;
+    box-shadow:var(--glow-primary);
+  ">
+    ↑
+  </button>
+
+  <!-- Quick View Styles -->
+  <style>
+    .quick-view-modal {
+      position: fixed; inset: 0;
+      z-index: 800;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .quick-view-modal.is-open { display: flex; }
+    .quick-view-modal__backdrop {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+    }
+    .quick-view-modal__dialog {
+      position: relative;
+      width: 100%;
+      max-width: 860px;
+      max-height: 90vh;
+      overflow-y: auto;
+      z-index: 1;
+      padding: 2rem;
+    }
+    .quick-view-modal__close {
+      position: absolute; top: 1rem; right: 1rem;
+      width: 36px; height: 36px;
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-border);
+      border-radius: 50%;
+      color: var(--color-text);
+      font-size: 1.25rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .quick-view-modal__close:hover { background: var(--color-danger); }
+    .scroll-to-top.is-visible { opacity: 1; pointer-events: all; }
+  </style>
+
+  <!-- Scripts -->
+  {{ 'global.js' | asset_url | script_tag }}
+  {{ 'cart-drawer.js' | asset_url | script_tag }}
+  {{ 'predictive-search.js' | asset_url | script_tag }}
+
+  {%- if template.name == 'product' -%}
+    {{ 'product.js' | asset_url | script_tag }}
+  {%- endif -%}
+
+  {%- if template.name == 'collection' or template.name == 'search' -%}
+    {{ 'collection-filters.js' | asset_url | script_tag }}
+  {%- endif -%}
+
+</body>
+</html>

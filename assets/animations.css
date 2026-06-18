@@ -1,0 +1,450 @@
+/* ============================================================
+   RYANZ STORE — animations.css
+   RGB Glow, Motion, Scroll Reveals
+   ============================================================ */
+
+/* ── RGB Sweep Border Animation ───────────────────────────── */
+@keyframes rgb-sweep {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.rgb-border {
+  position: relative;
+  border-radius: var(--radius-xl);
+}
+
+.rgb-border::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(
+    60deg,
+    #00d4ff,
+    #8b5cf6,
+    #22c55e,
+    #f59e0b,
+    #ef4444,
+    #8b5cf6,
+    #00d4ff
+  );
+  background-size: 300% 300%;
+  animation: rgb-sweep 4s ease infinite;
+  z-index: -1;
+  filter: blur(4px);
+  opacity: 0.7;
+}
+
+.rgb-border::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  background: var(--color-surface);
+  border-radius: calc(var(--radius-xl) - 2px);
+  z-index: -1;
+}
+
+/* ── Pulse Glow ───────────────────────────────────────────── */
+@keyframes pulse-cyan {
+  0%,
+  100% {
+    box-shadow:
+      0 0 12px rgba(0, 212, 255, 0.3),
+      0 0 24px rgba(0, 212, 255, 0.1);
+  }
+  50% {
+    box-shadow:
+      0 0 24px rgba(0, 212, 255, 0.6),
+      0 0 48px rgba(0, 212, 255, 0.2);
+  }
+}
+
+@keyframes pulse-purple {
+  0%,
+  100% {
+    box-shadow:
+      0 0 12px rgba(139, 92, 246, 0.3),
+      0 0 24px rgba(139, 92, 246, 0.1);
+  }
+  50% {
+    box-shadow:
+      0 0 24px rgba(139, 92, 246, 0.6),
+      0 0 48px rgba(139, 92, 246, 0.2);
+  }
+}
+
+@keyframes pulse-green {
+  0%,
+  100% {
+    box-shadow:
+      0 0 12px rgba(34, 197, 94, 0.3),
+      0 0 24px rgba(34, 197, 94, 0.1);
+  }
+  50% {
+    box-shadow:
+      0 0 24px rgba(34, 197, 94, 0.6),
+      0 0 48px rgba(34, 197, 94, 0.2);
+  }
+}
+
+.pulse-cyan {
+  animation: pulse-cyan 2.5s ease-in-out infinite;
+}
+.pulse-purple {
+  animation: pulse-purple 2.5s ease-in-out infinite;
+}
+.pulse-green {
+  animation: pulse-green 2.5s ease-in-out infinite;
+}
+
+/* ── Float ────────────────────────────────────────────────── */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-16px) rotate(2deg);
+  }
+}
+
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+.float-slow {
+  animation: float-slow 5s ease-in-out infinite;
+}
+
+/* ── Gradient Text Shift ──────────────────────────────────── */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.gradient-animate {
+  background: linear-gradient(135deg, #00d4ff, #8b5cf6, #22c55e, #00d4ff);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 4s ease infinite;
+}
+
+/* ── Scan Line Effect ─────────────────────────────────────── */
+@keyframes scan {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0.05;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0.05;
+  }
+}
+
+.scan-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.scan-effect::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 212, 255, 0.4),
+    transparent
+  );
+  animation: scan 3s linear infinite;
+  pointer-events: none;
+}
+
+/* ── Typing Cursor ────────────────────────────────────────── */
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.typing-cursor::after {
+  content: "|";
+  color: var(--color-primary);
+  animation: blink 1s step-end infinite;
+  margin-left: 2px;
+}
+
+/* ── Scroll Reveal (JS-driven) ────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-32px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.reveal-left.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(32px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.reveal-right.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Staggered children */
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.reveal-stagger.is-visible > *:nth-child(1) {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0ms;
+}
+.reveal-stagger.is-visible > *:nth-child(2) {
+  opacity: 1;
+  transform: none;
+  transition-delay: 80ms;
+}
+.reveal-stagger.is-visible > *:nth-child(3) {
+  opacity: 1;
+  transform: none;
+  transition-delay: 160ms;
+}
+.reveal-stagger.is-visible > *:nth-child(4) {
+  opacity: 1;
+  transform: none;
+  transition-delay: 240ms;
+}
+.reveal-stagger.is-visible > *:nth-child(5) {
+  opacity: 1;
+  transform: none;
+  transition-delay: 320ms;
+}
+.reveal-stagger.is-visible > *:nth-child(6) {
+  opacity: 1;
+  transform: none;
+  transition-delay: 400ms;
+}
+.reveal-stagger.is-visible > *:nth-child(7) {
+  opacity: 1;
+  transform: none;
+  transition-delay: 480ms;
+}
+.reveal-stagger.is-visible > *:nth-child(8) {
+  opacity: 1;
+  transform: none;
+  transition-delay: 560ms;
+}
+
+/* ── Shimmer ──────────────────────────────────────────────── */
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.06) 50%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2.5s ease-in-out infinite;
+}
+
+/* ── Particle Dots ────────────────────────────────────────── */
+.particle-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.particle-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(0, 212, 255, 0.15) 1px, transparent 1px),
+    radial-gradient(circle, rgba(139, 92, 246, 0.1) 1px, transparent 1px);
+  background-size:
+    40px 40px,
+    60px 60px;
+  background-position:
+    0 0,
+    20px 20px;
+  pointer-events: none;
+}
+
+/* ── Page Load Fade ───────────────────────────────────────── */
+@keyframes page-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.page-enter {
+  animation: page-in 0.4s ease forwards;
+}
+
+/* ── Button Press ─────────────────────────────────────────── */
+.btn:active {
+  transform: scale(0.97);
+}
+
+/* ── Slide In from Right (Cart Drawer) ────────────────────── */
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-out-right {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.slide-in-right {
+  animation: slide-in-right 0.35s cubic-bezier(0.34, 1.1, 0.64, 1) forwards;
+}
+.slide-out-right {
+  animation: slide-out-right 0.3s ease-in forwards;
+}
+
+/* ── Image Zoom on Hover ──────────────────────────────────── */
+.img-zoom-wrap {
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.img-zoom-wrap img {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.img-zoom-wrap:hover img {
+  transform: scale(1.06);
+}
+
+/* ── Notification Bounce ──────────────────────────────────── */
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  70% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.badge-bounce {
+  animation: bounce-in 0.35s var(--transition-spring) forwards;
+}
+
+/* ── Stars Twinkle ────────────────────────────────────────── */
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.star-twinkle {
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+/* ── Background Grid ──────────────────────────────────────── */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ── Noise Texture ────────────────────────────────────────── */
+.noise-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.4;
+}
