@@ -1,42 +1,14 @@
 {
   "sections": {
-    "hero": {
-      "type": "hero-banner"
-    },
-    "featured_categories": {
-      "type": "featured-categories"
-    },
-    "featured_products": {
-      "type": "featured-products"
-    },
-    "gallery": {
-      "type": "setup-gallery"
-    },
-    "best_sellers": {
-      "type": "best-sellers"
-    },
-    "new_arrivals": {
-      "type": "new-arrivals"
-    },
-    "why_choose": {
-      "type": "why-choose-us"
-    },
-    "reviews": {
-      "type": "testimonials"
-    },
-    "newsletter": {
-      "type": "newsletter"
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
     }
   },
   "order": [
-    "hero",
-    "featured_categories",
-    "featured_products",
-    "gallery",
-    "best_sellers",
-    "new_arrivals",
-    "why_choose",
-    "reviews",
-    "newsletter"
+    "main"
   ]
 }
