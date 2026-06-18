@@ -418,7 +418,6 @@ table:not([class]) {
   font-size: 1.4rem;
   border-style: hidden;
   box-shadow: 0 0 0 0.1rem rgba(var(--color-foreground), 0.2);
-  /* draws the table border  */
 }
 
 table:not([class]) td,
@@ -706,10 +705,6 @@ summary::-webkit-details-marker {
 }
 
 /* base-focus */
-/*
-  Focus ring - default (with offset)
-*/
-
 *:focus {
   outline: 0;
   box-shadow: none;
@@ -721,16 +716,11 @@ summary::-webkit-details-marker {
   box-shadow: var(--focused-base-box-shadow);
 }
 
-/* Fallback - for browsers that don't support :focus-visible, a fallback is set for :focus */
 .focused {
   outline: var(--focused-base-outline);
   outline-offset: var(--focused-base-outline-offset);
   box-shadow: var(--focused-base-box-shadow);
 }
-
-/*
-  Focus ring - inset
-*/
 
 .focus-inset:focus-visible {
   outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
@@ -744,11 +734,6 @@ summary::-webkit-details-marker {
   box-shadow: 0 0 0.2rem 0 rgba(var(--color-foreground), 0.3);
 }
 
-/*
-  Focus ring - none
-*/
-
-/* Dangerous for a11y - Use with care */
 .focus-none {
   box-shadow: none !important;
   outline: 0 !important;
@@ -1056,7 +1041,6 @@ summary::-webkit-details-marker {
     margin-left: 1.5rem;
   }
 
-  /* Fix to show some space at the end of our sliders in all browsers */
   .grid--peek.slider:after {
     margin-left: calc(-1 * var(--grid-mobile-horizontal-spacing));
   }
@@ -1172,8 +1156,6 @@ deferred-media {
 }
 
 /* component-button */
-/* Button - default */
-
 .button--secondary,
 .button--tertiary {
   --color-button: var(--color-secondary-button);
@@ -1194,7 +1176,7 @@ button.shopify-payment-button__button--unbranded {
   --shadow-blur-radius: var(--buttons-shadow-blur-radius);
   --shadow-opacity: var(--buttons-shadow-opacity);
   --shadow-visible: var(--buttons-shadow-visible);
-  --border-offset: var(--buttons-border-offset); /* reduce radius edge artifacts */
+  --border-offset: var(--buttons-border-offset);
   --border-opacity: calc(1 - var(--buttons-border-opacity));
   border-radius: var(--buttons-radius-outset);
   position: relative;
@@ -1316,8 +1298,6 @@ button.shopify-payment-button__button--unbranded {
   padding: 1.2rem 2.6rem;
 }
 
-/* Shopify Accelerated Checkout */
-
 shopify-accelerated-checkout {
   --shopify-accelerated-checkout-button-border-radius: var(--buttons-radius-outset);
   --shopify-accelerated-checkout-button-box-shadow: var(--shadow-horizontal-offset) var(--shadow-vertical-offset) var(--shadow-blur-radius)
@@ -1328,9 +1308,6 @@ shopify-accelerated-checkout-cart {
   --shopify-accelerated-checkout-button-box-shadow: var(--shadow-horizontal-offset) var(--shadow-vertical-offset) var(--shadow-blur-radius)
   rgba(var(--color-shadow), var(--shadow-opacity));
 }
-
-
-/* Button - other */
 
 .button:disabled,
 .button[aria-disabled='true'],
@@ -2263,7 +2240,6 @@ input[type='checkbox'] {
 
 .announcement-bar-slider--fade-in-next .announcement-bar__message {
   --announcement-translate-from: -1.5rem;
-  /* Prevent flicker */
   opacity: 0;
   animation-name: translateAnnouncementSlideIn;
   animation-delay: var(--duration-announcement-bar);
@@ -2271,7 +2247,6 @@ input[type='checkbox'] {
 
 .announcement-bar-slider--fade-in-previous .announcement-bar__message {
   --announcement-translate-from: 1.5rem;
-  /* Prevent flicker */
   opacity: 0;
   animation-name: translateAnnouncementSlideIn;
   animation-delay: var(--duration-announcement-bar);
@@ -3594,4 +3569,75 @@ details-disclosure > details {
   100% {
     transform: translateX(100%) scaleX(0);
   }
+}
+
+/* ==========================================
+   RYANZ STORE PRO OVERRIDES
+   ========================================== */
+
+/* Custom Webkit Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+  border-left: 1px solid rgba(var(--color-foreground), 0.05);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--color-primary, #00D4FF), var(--color-secondary, #8B5CF6));
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--color-secondary, #8B5CF6), var(--color-primary, #00D4FF));
+}
+
+/* Neon Focus Outlines */
+*:focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.6), 0 0 2px rgba(0, 212, 255, 0.8) inset !important;
+  border-radius: inherit;
+}
+
+/* Pro Button Styling */
+.button, 
+.shopify-challenge__button, 
+.customer button {
+  background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(139,92,246,0.1)) !important;
+  border: 1px solid rgba(0,212,255,0.3) !important;
+  color: var(--color-primary, #00D4FF) !important;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.15rem;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease !important;
+  box-shadow: 0 0 0 transparent !important;
+}
+
+.button:hover, 
+.shopify-challenge__button:hover, 
+.customer button:hover {
+  background: linear-gradient(135deg, rgba(0,212,255,0.2), rgba(139,92,246,0.2)) !important;
+  border-color: rgba(139,92,246,0.8) !important;
+  color: #fff !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 20px rgba(139,92,246,0.25), inset 0 0 10px rgba(0,212,255,0.1) !important;
+}
+
+.button:after {
+  display: none !important; /* Removes Shopify's clunky default double-border */
+}
+
+/* Glassmorphism Cards */
+.card {
+  background: rgba(255, 255, 255, 0.02) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--card-corner-radius, 12px) !important;
+  transition: all 0.3s ease !important;
+}
+
+.card:hover {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(0, 212, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 212, 255, 0.1);
+  transform: translateY(-4px);
 }
